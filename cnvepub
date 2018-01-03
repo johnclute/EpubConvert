@@ -1,0 +1,9 @@
+#!/bin/bash
+file=$1
+cvr=$2
+
+if [ $# -lt 2 ]; then
+  ebook-convert test.html $file --output-profile nook
+else
+  ebook-convert test.html $file --cover $cvr --output-profile nook 
+fi

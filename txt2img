@@ -1,0 +1,5 @@
+#!/bin/bash
+outf=$1
+txt=$2
+
+convert ~/Documents/blank-cover.jpg  -gravity center  -pointsize 14  -size 220x -font Arial  -annotate 0 "${txt}" $outf

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+ls > tr.dat
+
+for file in *
+do
+  if [ -d "$file" ]; then
+    fl1=`echo "$file" | sed 's/ /_/g'`
+    mv "$file" $fl1
+  fi
+done
+
+ls > tr.dat
+
+cat tr.dat | while read dir
+do
+  if [ -d "$dir" ]; then
+     cd "$dir"
+     echo ">>>>Beginning <<<<"
+     echo "${dir}"
+     echo ">>>>Conversion<<<<"
+     echo 
+     ls | while read dir1
+     do
+       fl=`echo "${dir1}" | sed 's/ /-/g'`
+       echo " mv ${dir1} ${fl}"
+       mv "${dir1}" ${fl}
+     done
+     fl1=`ls *.txt`
+    ## rmcr.pl $fl1
+     cp $fl1 tmp.dat
+     msg=`mkhtml.pl tmp.dat`
+     echo "$msg"
+     if [ -e *.jpg ]; then
+       echo "Have cover"
+       mv *.jpg cover.jpg
+     else
+       echo "Don't have a cover"
+       cp ~/blank-cover.jpg cover.jpg
+       txt2img cover.jpg "${msg}"
+     fi
+     cnvepub ${dir}.epub cover.jpg
+     cd ..
+  fi
+done
+
